@@ -7,46 +7,53 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root{
-      --bg:#f4f7fb;
+      --bg:#eef5f6;
+      --bg-2:#e6f0f1;
       --card:#ffffff;
-      --text:#122033;
-      --muted:#5f6b7a;
-      --line:#d9e1ea;
-      --accent:#0f6cbd;
-      --accent-soft:#e8f1fb;
-      --good:#1f7a4d;
-      --shadow:0 10px 28px rgba(16,24,40,.08);
-      --radius:18px;
+      --text:#16313b;
+      --muted:#5b7280;
+      --line:#d7e4e7;
+      --accent:#007c91;
+      --accent-2:#0b5cab;
+      --accent-soft:#e3f4f6;
+      --good:#12805c;
+      --shadow:0 16px 40px rgba(16,24,40,.08);
+      --shadow-soft:0 8px 20px rgba(0,53,74,.08);
+      --radius:20px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-      background:var(--bg);
+      background:linear-gradient(180deg,var(--bg),var(--bg-2));
       color:var(--text);
     }
     .wrap{max-width:1500px;margin:0 auto;padding:22px}
     .hero{
-      background:linear-gradient(135deg,#0f6cbd,#1c86d1 55%,#6fb3ea);
+      background:linear-gradient(135deg,#0b5cab 0%,#007c91 52%,#38b6a4 100%);
       color:#fff;
-      padding:24px;
-      border-radius:24px;
+      padding:28px;
+      border-radius:28px;
+      position:relative;
+      overflow:hidden;
       box-shadow:var(--shadow);
       margin-bottom:18px;
     }
-    .hero h1{margin:0 0 8px;font-size:30px}
-    .hero p{margin:0;color:rgba(255,255,255,.88)}
+    .hero h1{margin:0 0 10px;font-size:34px;letter-spacing:-.02em}
+    .hero p{margin:0;color:rgba(255,255,255,.92);max-width:960px;font-size:16px}
     .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
     .chip{
-      background:rgba(255,255,255,.14);
+      background:rgba(255,255,255,.12);
       border:1px solid rgba(255,255,255,.18);
-      padding:8px 12px;border-radius:999px;font-size:13px
+      padding:9px 14px;border-radius:999px;font-size:13px;backdrop-filter:blur(6px)
     }
 
-    .toolbar,.grid,.table-card,.notes{
-      background:var(--card);
+    .toolbar,.grid,.table-card,.notes,.footer-card{
+      background:rgba(255,255,255,.92);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
+      border:1px solid rgba(215,228,231,.95);
+      backdrop-filter:blur(8px);
     }
     .toolbar{padding:16px;margin-bottom:18px}
     .toolbar-top{
@@ -55,11 +62,11 @@
     .toolbar h2{margin:0;font-size:20px}
     .toolbar .actions{display:flex;gap:8px;flex-wrap:wrap}
     button{
-      border:none;background:var(--accent);color:#fff;padding:10px 14px;border-radius:12px;
-      cursor:pointer;font-weight:600
+      border:none;background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#fff;padding:10px 14px;border-radius:14px;
+      cursor:pointer;font-weight:700; box-shadow:var(--shadow-soft)
     }
-    button.secondary{background:#eef3f8;color:var(--text)}
-    button.ghost{background:#fff;color:var(--text);border:1px solid var(--line)}
+    button.secondary{background:#eef7f8;color:var(--text)}
+    button.ghost{background:#fff;color:var(--text);border:1px solid var(--line);box-shadow:none}
     .filters{
       display:grid;
       grid-template-columns:repeat(6,minmax(150px,1fr));
@@ -69,24 +76,24 @@
       display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:700;letter-spacing:.03em;text-transform:uppercase
     }
     select,input{
-      width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;font-size:14px
+      width:100%;padding:11px 12px;border-radius:14px;border:1px solid var(--line);background:#fbfefe;font-size:14px;color:var(--text)
     }
 
     .kpis{
       display:grid;grid-template-columns:repeat(5,minmax(170px,1fr));gap:14px;margin-bottom:18px
     }
     .kpi{
-      background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px
+      background:linear-gradient(180deg,#ffffff,#f8fcfc);border-radius:22px;box-shadow:var(--shadow);padding:20px;border:1px solid #e2eef0
     }
     .kpi .label{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
-    .kpi .value{font-size:34px;font-weight:800;margin:8px 0 4px}
+    .kpi .value{font-size:37px;font-weight:800;margin:8px 0 6px;letter-spacing:-.02em}
     .kpi .sub{font-size:13px;color:var(--muted)}
     .grid{
       padding:14px;margin-bottom:18px;
       display:grid;grid-template-columns:1.45fr 1fr;gap:14px;
     }
     .card{
-      border:1px solid #edf1f5;border-radius:16px;padding:14px;background:#fff;
+      border:1px solid #e3eef0;border-radius:18px;padding:16px;background:linear-gradient(180deg,#ffffff,#fbfefe);
     }
     .card h3{margin:0 0 8px;font-size:18px}
     .canvas-wrap{height:360px}
@@ -100,7 +107,7 @@
     .table-scroll{overflow:auto;max-height:540px;border:1px solid #edf1f5;border-radius:14px}
     table{width:100%;border-collapse:collapse;background:#fff}
     th,td{padding:10px 12px;border-bottom:1px solid #eef2f6;text-align:left;font-size:13px;white-space:nowrap}
-    th{position:sticky;top:0;background:#f8fafc;z-index:1}
+    th{position:sticky;top:0;background:#f0f8f9;z-index:1;color:#29515b}
     tr:hover td{background:#fafcff}
     .notes{padding:16px;margin-top:18px}
     .notes h3{margin:0 0 10px}
@@ -111,6 +118,26 @@
       color:var(--accent);font-weight:700;font-size:12px
     }
     .muted{color:var(--muted)}
+
+    .hero::after{
+      content:"";position:absolute;inset:auto -70px -70px auto;width:240px;height:240px;
+      background:radial-gradient(circle, rgba(255,255,255,.26) 0%, rgba(255,255,255,0) 68%);
+      pointer-events:none;
+    }
+    .brandline{
+      display:grid;grid-template-columns:1.6fr 1fr;gap:16px;align-items:end;margin-top:18px
+    }
+    .author-card{
+      background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);
+      border-radius:18px;padding:14px 16px;display:grid;gap:6px;max-width:620px
+    }
+    .author-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.82);font-weight:700}
+    .author-main{font-size:16px;font-weight:700}
+    .author-sub{font-size:14px;color:rgba(255,255,255,.9)}
+    .footer-card{padding:16px 18px;margin-top:18px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .footer-card strong{display:block;margin-bottom:4px}
+    .footer-meta{color:var(--muted);font-size:14px}
+
     .hidden{display:none}
     @media (max-width:1200px){
       .filters{grid-template-columns:repeat(3,minmax(150px,1fr))}
@@ -141,6 +168,14 @@
       <span class="chip" id="metaAnios">Años: -</span>
       <span class="chip" id="metaFuente">Fuente: vacunas_programadas.json</span>
       <span class="chip" id="metaGenerado">Generado: -</span>
+      <span class="chip" id="metaVisualizacion">Visualización: -</span>
+    </div>
+    <div class="brandline">
+      <div class="author-card">
+        <div class="author-title">Autor responsable</div>
+        <div class="author-main">Rodrigo Villalobos R.</div>
+        <div class="author-sub">Correo: rodrigovillalobos1978@gmail.com</div>
+      </div>
     </div>
   </section>
 
@@ -262,6 +297,17 @@
   <section class="notes">
     <h3>Lectura rápida</h3>
     <ul id="insights"></ul>
+  </section>
+
+  <section class="footer-card">
+    <div>
+      <strong>Autor</strong>
+      <div class="footer-meta">Rodrigo Villalobos R. · rodrigovillalobos1978@gmail.com</div>
+    </div>
+    <div>
+      <strong>Fecha y hora de visualización</strong>
+      <div class="footer-meta" id="footerFechaHora">-</div>
+    </div>
   </section>
 </div>
 
@@ -445,6 +491,8 @@ function updateHeaderMeta(){
   document.getElementById('metaRegistros').textContent = `Registros: ${formatNumber(rawData.metadata.total_registros)}`;
   document.getElementById('metaAnios').textContent = `Años: ${rawData.metadata.anios_disponibles.join(", ") || "-"}`;
   document.getElementById('metaGenerado').textContent = `Generado: ${rawData.metadata.generado_en || "-"}`;
+  document.getElementById('metaVisualizacion').textContent = `Visualización: ${new Date().toLocaleString('es-CL')}`;
+  const footer = document.getElementById('footerFechaHora'); if(footer) footer.textContent = new Date().toLocaleString('es-CL');
 }
 function setData(payload){
   rawData = payload;
